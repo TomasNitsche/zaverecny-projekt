@@ -27,8 +27,8 @@ public class PojistenaOsoba {
    public String getPrijmeni () { return prijmeni; }
    public int getVek () { return vek; }
    public long getTelCislo () { return telCislo; }
-   
-    @Override
+
+   @Override
    public String toString(){
        return String.format(this.jmeno + "  " + this.prijmeni + "  " + this.vek + "  " + this.telCislo);
    }
