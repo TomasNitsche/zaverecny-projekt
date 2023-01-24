@@ -2,6 +2,8 @@ package cz.itnetwork.evidencepojisteni;
 
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DatabazePojistenych {
     Scanner sc = new Scanner(System.in, "UTF-8");
@@ -10,7 +12,7 @@ public class DatabazePojistenych {
     private String jmeno;
     private String prijmeni;
     private int vek;
-    private int telCislo;
+    private String telCislo;
 
     /*
      * metoda na vkládání pojištěnce
@@ -35,17 +37,15 @@ public class DatabazePojistenych {
                 vek = Integer.parseInt(sc.nextLine());
 
             }
-            System.out.println("Zadej telefonní číslo pojištěného bez mezer ve tvaru 123456789 a stiskni klávesu \"Enter\"");
-            int telCislo = Integer.parseInt(sc.nextLine());
 
-            // zjištění zda-li jsme omylem nezadali chybné číslo
-            while ((telCislo > 999999999) || (telCislo < 100000000)) {
-                System.out.println("Telefonní číslo se zdá být zadané chybně");
-                zeptejSeNaPokracovani();
-                System.out.println("Zadej telefonní číslo pojištěného bez mezer ve tvaru 123456789 a stiskni klávesu \"Enter\"");
-                telCislo = Integer.parseInt(sc.nextLine());
-
-            }
+            boolean jeSpravnyTvar;
+            Pattern pattern = Pattern.compile("\\d{3}\\s\\d{3}\\s\\d{3}");
+            do {
+                System.out.println("Zadej telefonní číslo pojištěného ve tvaru 777 777 777 a stiskni klávesu \"Enter\"");
+                telCislo = sc.nextLine().trim();
+                Matcher matcher = pattern.matcher(telCislo);
+                jeSpravnyTvar = matcher.matches();
+            } while(!jeSpravnyTvar);
 
             // vytvoření nového pojištěného v záznamu
             PojistenaOsoba pojistenaOsoba = new PojistenaOsoba(jmeno, prijmeni, vek, telCislo);
@@ -54,7 +54,7 @@ public class DatabazePojistenych {
             vypisVlozeny();
         }
         catch(Exception e)
-        { System.out.println("Něco se zdá být špatně. Přesvěčte se že zadávate správně jméno, příjmění, věk a telefonní číslo ve formátu 123456789");
+        { System.out.println("Něco se zdá být špatně. Přesvěčte se že zadávate správně jméno, příjmění, věk a telefonní číslo ve formátu 123 456 789");
             zeptejSeNaPokracovani();
         }
     }
@@ -62,7 +62,7 @@ public class DatabazePojistenych {
     /*
      * metoda nám zobrazuje vloženou osobu
      */
-    private void vypisVlozeny() {
+    protected void vypisVlozeny() {
         System.out.println("------------------------------------------------------------");
         System.out.println("Úspěšně jste vložili pojištěnou osobu:");
         System.out.println(posledniPridany);
@@ -80,9 +80,9 @@ public class DatabazePojistenych {
         } else {
             System.out.println("Seznam všech pojištěných");
             for (int i = 0; i < pojisteneOsoby.size(); i++) {
-                System.out.println((i+1) + " " +pojisteneOsoby.get(i).getJmeno() + " " +
-                        pojisteneOsoby.get(i).getPrijmeni() + " " +
-                        pojisteneOsoby.get(i).getVek() + " " +
+                System.out.println((i+1) + " " +pojisteneOsoby.get(i).getJmeno() + "  " +
+                        pojisteneOsoby.get(i).getPrijmeni() + "  " +
+                        pojisteneOsoby.get(i).getVek() + " let  +420 " +
                         pojisteneOsoby.get(i).getTelCislo());}
             System.out.println("------------------------------------------------------------");
             zeptejSeNaPokracovani();
@@ -118,16 +118,21 @@ public class DatabazePojistenych {
      * V programu jsou místa, kde se ptáme zda-li chce uživatel prokračovat
      * Volba je pokračování nebo ukončení aplikace
      */
-    private void zeptejSeNaPokracovani() {
-        System.out.println("Přejete si pokračovat? Ano / Ne");
-        System.out.println("1 -> Ano");
-        System.out.println("2 -> Ne");
-        int volbaPokracovani = Integer.parseInt(sc.nextLine());
-        if (volbaPokracovani == 2) {
-            System.out.println("Ukončuji aplikaci Evidence pojištění. Nashledanou");
-            System.exit(0);
-        } else {
-            System.out.println("------------------------------------------------------------");
+    protected void zeptejSeNaPokracovani() {
+        try {
+            System.out.println("Přejete si pokračovat? Ano / Ne. Zadejte příkaz pomocí číslovky");
+            System.out.println("1 -> Ano");
+            System.out.println("2 -> Ne");
+            int volbaPokracovani = Integer.parseInt(sc.nextLine());
+            if (volbaPokracovani == 2) {
+                System.out.println("Ukončuji aplikaci Evidence pojištění. Nashledanou");
+                System.exit(0);
+            } else {
+                System.out.println("------------------------------------------------------------");
+            }
+        } catch (Exception e) {
+            System.out.println("Zadali jste neplatnou hodnotu. Prosím zadejte příkaz pomocí číslovky");
+            zeptejSeNaPokracovani();
         }
     }
 }

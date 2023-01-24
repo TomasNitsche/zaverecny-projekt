@@ -14,9 +14,9 @@ public class PojistenaOsoba {
     private String jmeno;
     private String prijmeni;
     private int vek;
-    private long telCislo;
+    private String telCislo;
     
-    public PojistenaOsoba(String jmeno, String prijmeni, int vek, long telCislo) {
+    public PojistenaOsoba(String jmeno, String prijmeni, int vek, String telCislo) {
         this.jmeno = jmeno;
         this.prijmeni = prijmeni;
         this.vek = vek;
@@ -26,11 +26,11 @@ public class PojistenaOsoba {
    public String getJmeno () { return jmeno; }
    public String getPrijmeni () { return prijmeni; }
    public int getVek () { return vek; }
-   public long getTelCislo () { return telCislo; }
+   public String getTelCislo () { return telCislo; }
 
    @Override
    public String toString(){
-       return String.format(this.jmeno + "  " + this.prijmeni + "  " + this.vek + "  " + this.telCislo);
+       return String.format(this.jmeno + "   " + this.prijmeni + "   " + this.vek + " let  +420 " + this.telCislo);
    }
    
     

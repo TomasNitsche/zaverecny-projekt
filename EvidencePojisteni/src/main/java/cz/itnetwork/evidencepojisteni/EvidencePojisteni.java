@@ -14,6 +14,5 @@ public class EvidencePojisteni {
     public static void main(String[] args) {
        SpravaPojistenych spravaPojistenych = new SpravaPojistenych();
        spravaPojistenych.spustitSpravu();
-       
     }
 }

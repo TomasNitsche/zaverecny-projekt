@@ -14,48 +14,61 @@ import java.util.Scanner;
 public class SpravaPojistenych {
     Scanner sc = new Scanner(System.in, "UTF-8");
     DatabazePojistenych databaze = new DatabazePojistenych();
-    
+
     /*
-    * Hlavní metoda ve které program běží
-    * zajišťuje vkládání nových pojištěnců i jejich výpisy
-    */
+     * spustí program Evidence pojištěných
+     * jediná veřejně přístupná metoda ostatní jsou private
+     */
     public void spustitSpravu() {
         vypisUvod();
+        zapniProgram();
+    }
+    /*
+     * Hlavní metoda ve které program běží
+     * zajišťuje vkládání nových pojištěnců i jejich výpisy
+     */
+    private void zapniProgram() {
         vypisPrikazoveMenu();
-        System.out.println("Zadejte číslo příkazu a stiskni klávesu \"Enter\"");
-        int prikaz = Integer.parseInt(sc.nextLine());
-        
-        /*
-        * while cyklus který nám zajišťuje opakování zadávíní příkazů dokud uživatel nezadá, že chce ukončit
-        * příkazy jsou vložení pojištěného, vypsání všechn pojištěných, najít pojištěného a ukončit aplikaci
-        */
-        
-        while (prikaz != 4) {
-            if (prikaz >=1 && prikaz <= 4) {
-            switch (prikaz) {
-                case 1 -> {
-                    databaze.vlozPojisteneho();
+        try {
+            System.out.println("Zadejte číslo příkazu a stiskni klávesu \"Enter\"");
+            int prikaz = Integer.parseInt(sc.nextLine());
+            /*
+             * while cyklus který nám zajišťuje opakování zadávíní příkazů dokud uživatel nezadá, že chce ukončit
+             * příkazy jsou vložení pojištěného, vypsání všechn pojištěných, najít pojištěného a ukončit aplikaci
+             */
+
+            while (prikaz != 4) {
+                if (prikaz >= 1 && prikaz <= 4) {
+                    switch (prikaz) {
+                        case 1 -> {
+                            databaze.vlozPojisteneho();
+                        }
+                        case 2 -> {
+                            databaze.vypisVsechny();
+                        }
+                        case 3 -> {
+                            databaze.najdiPojisteneho();
+                        }
+                        case 4 -> {
+                            // sem se kód nedostane a aplikace se vypne
+                            System.exit(0);
+                        }
+                    }
+                } else {
+                    System.out.println("Zadali jste neplatnou hodnotu:");
                 }
-                case 2 -> {
-                    databaze.vypisVsechny();
-                }
-                case 3 -> {
-                    databaze.najdiPojisteneho();
-                }
-                case 4 -> {
-                    // sem se kód nedostane a aplikace se vypne
-                    System.exit(0);
-                }    
-                }
-            } else { System.out.println("Zadali jste neplatnou hodnotu:"); }
-     
-            vypisPrikazoveMenu();
-            prikaz = Integer.parseInt(sc.nextLine());
-            
- 
+
+                vypisPrikazoveMenu();
+                prikaz = Integer.parseInt(sc.nextLine());
+
+            }
+            vypisKonecAplikace();
+            System.exit(0);
+        } catch (Exception e) {
+            System.out.println("Zadali jste neplatnou hodnotu. Prosím zadejte příkaz pomocí číslovky");
+            zapniProgram();
         }
-        vypisKonecAplikace();
-        System.exit(0);
+
     }
     /*
      * Vypisuje se při spuštění programu. je to nápis EVIDENCE
@@ -95,9 +108,7 @@ public class SpravaPojistenych {
             System.err.println("Ukončuji aplikaci Evidence pojištění. Nashledanou");
         }
     }
-
-        
-    }
+}
 
     
 
